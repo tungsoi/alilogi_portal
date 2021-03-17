@@ -124,7 +124,7 @@ return [
         'providers' => [
             'admin' => [
                 'driver' => 'eloquent',
-                'model'  => Encore\Admin\Auth\Database\Administrator::class,
+                'model'  => App\User::class,
             ],
         ],
 
@@ -177,7 +177,7 @@ return [
 
         // User tables and model.
         'users_table' => 'admin_users',
-        'users_model' => Encore\Admin\Auth\Database\Administrator::class,
+        'users_model' => App\User::class,
 
         // Role table and model.
         'roles_table' => 'admin_roles',
@@ -251,6 +251,8 @@ return [
     */
     'default_avatar' => '/vendor/laravel-admin/AdminLTE/dist/img/user2-160x160.jpg',
 
+    'favicon'   =>  'assets/img/favicon.png',
+
     /*
     |--------------------------------------------------------------------------
     | Admin map field provider
@@ -289,7 +291,7 @@ return [
     | "sidebar-mini".
     |
     */
-    'layout' => ['sidebar-collapse'],
+    'layout' => ['sidebar-mini'],
 
     /*
     |--------------------------------------------------------------------------
@@ -299,7 +301,9 @@ return [
     | This value is used to set the background image of login page.
     |
     */
-    'login_background_image' => "",
+    'login_background_image' => "assets/img/login_bg.jpg",
+
+    'register_background_image' => "assets/img/register_bg.jfif",
 
     /*
     |--------------------------------------------------------------------------
@@ -373,7 +377,7 @@ return [
     | The global Grid action display class.
     |--------------------------------------------------------------------------
     */
-    'grid_action_class' => \Encore\Admin\Grid\Displayers\DropdownActions::class,
+    'grid_action_class' => \App\Admin\Extensions\CustomActions::class,
 
     /*
     |--------------------------------------------------------------------------
@@ -395,6 +399,10 @@ return [
     |
     */
     'extensions' => [
+        'grid-lightbox' => [
 
+            // Set to `false` if you want to disable this extension
+            'enable' => true,
+        ]
     ],
 ];

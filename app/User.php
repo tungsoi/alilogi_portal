@@ -2,38 +2,143 @@
 
 namespace App;
 
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Encore\Admin\Traits\AdminBuilder;
+use Illuminate\Auth\Authenticatable;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Facades\Storage;
+use Encore\Admin\Auth\Database\HasPermissions;
 
-class User extends Authenticatable
+class User extends Model implements AuthenticatableContract
 {
-    use Notifiable;
+    use Authenticatable, AdminBuilder, HasPermissions;
+
+    const STATUS = [
+        0   =>  'Khoá',
+        1   =>  'Hoạt động'
+    ];
+
+    const ADMIN = 0;
+    const CUSTOMER = 1;
 
     /**
-     * The attributes that are mass assignable.
+     * Table name
+     *
+     * @var string
+     */
+    protected $table = "admin_users";
+
+    /**
+     * Fields
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'username',
+        'name',
+        'avatar',
+        'email',
+        'phone_number',
+        'wallet',
+        'address',
+        'is_customer',
+        'symbol_name',
+        'ware_house_id',
+        'is_active',
+        'password',
+        'note',
+        'wallet_order',
+        'province',
+        'district',
+        'staff_sale_id',
+        'customer_percent_service',
+        'type_customer'
     ];
 
     /**
-     * The attributes that should be hidden for arrays.
+     * Create a new Eloquent model instance.
      *
-     * @var array
+     * @param array $attributes
      */
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
+    public function __construct(array $attributes = []){
+        $connection = $this->connection ?: config('database.default');
+
+        $this->setConnection($connection);
+
+        $this->setTable(config('admin.database.users_table'));
+
+        parent::__construct($attributes);
+    }
 
     /**
-     * The attributes that should be cast to native types.
+     * Get avatar attribute.
      *
-     * @var array
+     * @param string $avatar
+     *
+     * @return string
      */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    public function getAvatarAttribute($avatar){
+        if(url()->isValidUrl($avatar)){
+            return $avatar;
+        }
+
+        $disk = config('admin.upload.disk');
+
+        if($avatar && array_key_exists($disk, config('filesystems.disks'))){
+            return Storage::disk(config('admin.upload.disk'))->url($avatar);
+        }
+
+        $default = config('admin.default_avatar') ?: '/bamboo-admin/AdminLTE/dist/img/user2-160x160.jpg';
+
+        return admin_asset($default);
+    }
+
+    /**
+     * A user has and belongs to many roles.
+     *
+     * @return BelongsToMany
+     */
+    public function roles(): BelongsToMany{
+        $pivotTable = config('admin.database.role_users_table');
+
+        $relatedModel = config('admin.database.roles_model');
+
+        return $this->belongsToMany($relatedModel, $pivotTable, 'user_id', 'role_id');
+    }
+
+    /**
+     * A User has and belongs to many permissions.
+     *
+     * @return BelongsToMany
+     */
+    public function permissions(): BelongsToMany{
+        $pivotTable = config('admin.database.user_permissions_table');
+
+        $relatedModel = config('admin.database.permissions_model');
+
+        return $this->belongsToMany($relatedModel, $pivotTable, 'user_id', 'permission_id');
+    }
+
+    public function getAccessToken(){
+        $token = json_decode($this->token, true);
+        if($token && isset($token['access_token'])){
+            return $token['access_token'];
+        }
+        return '';
+    }
+
+    public function warehouse() {
+        return $this->hasOne('App\Models\Alilogi\Warehouse', 'id', 'ware_house_id');
+    }
+
+    public static function customers() {
+        return self::where('is_customer', 1)->get();
+    }
+
+    public function saleStaff()
+    {
+        # code...
+        return $this->hasOne(User::class, 'id', 'staff_sale_id');
+    }
 }

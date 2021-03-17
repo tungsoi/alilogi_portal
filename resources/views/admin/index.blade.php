@@ -21,7 +21,39 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <style>
+        body {
+            font-family: "Tahoma" !important;
+            font-size: 12px !important;
+        }
 
+        h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+            font-family: "Tahoma" !important;
+        }
+        tfoot {
+            display: table-row-group;
+        }
+        th {
+            padding: 10px 10px !important;
+            font-weight: 600;
+            font-size: 12px !important;
+        }
+        .grid-row-view, .grid-row-edit, .grid-row-deposite, .grid-row-cancle, .grid-row-confirm-ordered, .grid-row-outstock {
+            margin-top: 5px;
+        }
+        .editable-click, a.editable-click, a.editable-click:hover {
+            border-bottom: none;
+        }
+        form .box-footer .pull-right {
+            float: left !important;
+            margin-left: 20px;
+        }
+        .mg-t-10{margin-top: 10px}
+        td, th {
+            padding: 0;
+            border: 1px solid #f4f4f4;
+        }
+    </style>
 </head>
 
 <body class="hold-transition {{config('admin.skin')}} {{join(' ', config('admin.layout'))}}">
@@ -47,11 +79,11 @@
         {!! Admin::html() !!}
     </div>
 
-    @include('admin::partials.footer')
+    {{-- @include('admin::partials.footer') --}}
 
 </div>
 
-<button id="totop" title="Go to top" style="display: none;"><i class="fa fa-chevron-up"></i></button>
+{{-- <button id="totop" title="Go to top" style="display: none;"><i class="fa fa-chevron-up"></i></button> --}}
 
 <script>
     function LA() {}

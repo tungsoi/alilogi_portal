@@ -13,4 +13,13 @@ Route::group([
 
     $router->get('/', 'HomeController@index')->name('home');
 
+    $router->resources([
+        'auth/users'    =>   'UserController'
+    ]);
 });
+
+Route::group(['middleware' => ['web']], function () {
+    Route::get('auth/users/register', 'App\\Admin\\Controllers\\RegisterController@getRegister')->name('admin.auth.users.register');
+    Route::post('auth/users/register', 'App\\Admin\\Controllers\\RegisterController@postRegister')->name('admin.auth.users.postRegister');
+});
+

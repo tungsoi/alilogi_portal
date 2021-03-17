@@ -30,7 +30,7 @@
 </head>
 
 <body class="hold-transition login-page"
-    @if(config('admin.login_background_image'))style="background: url({{ asset(config('admin.login_background_image')) }}) no-repeat;background-size: cover;"
+    @if(config('admin.login_background_image'))style="background: url({{ asset(config('admin.register_background_image')) }}) no-repeat;background-size: cover;"
     @endif>
     <div class="login-box">
         <div class="login-logo">
@@ -40,10 +40,10 @@
         </div>
         <!-- /.login-logo -->
         <div class="login-box-body">
-            <p class="login-box-msg">{{ trans('admin.login') }}</p>
+            <p class="login-box-msg">{{ trans('admin.register') }}</p>
 
-            <form action="{{ admin_url('auth/login') }}" method="post">
-                <div class="form-group has-feedback {!! !$errors->has('username') ?: 'has-error' !!}">
+            <form action="{{ route('admin.auth.users.postRegister') }}" method="post">
+                <div class="form-group has-feedback @if (isset($errors)) {!! !$errors->has('username') ?: 'has-error' !!} @endif">
 
                     @if($errors->has('username'))
                         @foreach($errors->get('username') as $message)
@@ -52,39 +52,25 @@
                         @endforeach
                     @endif
 
-                    <input type="text" class="form-control" placeholder="{{ trans('admin.username') }}" name="username"
+                    <input type="text" class="form-control" placeholder="Địa chỉ Email" name="username"
                         value="{{ old('username') }}">
                     <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-                </div>
-                <div class="form-group has-feedback {!! !$errors->has('password') ?: 'has-error' !!}">
-
-                    @if($errors->has('password'))
-                        @foreach($errors->get('password') as $message)
-                            <label class="control-label" for="inputError"><i
-                                class="fa fa-times-circle-o"></i> {{$message}}</label><br>
-                        @endforeach
-                    @endif
-
-                    <input type="password" class="form-control" placeholder="{{ trans('admin.password') }}"
-                        name="password">
-                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                 </div>
                 <div class="row">
                     <div class="col-xs-12">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <button type="submit"
-                            class="btn btn-danger btn-block btn-flat">{{ trans('admin.login') }}</button>
+                            class="btn btn-warning btn-block btn-flat">{{ trans('admin.register') }}</button>
                     </div>
                     <!-- /.col -->
                 </div>
                 <div class="row">
                     <hr>
                     <div class="col-xs-6">
-                        <a href="http://">{{ trans('admin.forgot-password') }}</a>
                     </div>
 
                     <div class="col-xs-6">
-                        <a href="{{ route('admin.auth.users.register') }}" style="float: right">{{ trans('admin.register') }}</a>
+                        <a href="{{ route('admin.login') }}" style="float: right">{{ trans('admin.login') }}</a>
                     </div>
                 </div>
             </form>

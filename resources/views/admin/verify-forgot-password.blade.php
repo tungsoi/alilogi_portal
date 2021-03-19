@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>{{config('admin.title')}} | {{ trans('admin.login') }}</title>
+    <title>{{config('admin.title')}} | Quên mật khẩu</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
@@ -30,7 +30,7 @@
 </head>
 
 <body class="hold-transition login-page"
-    @if(config('admin.login_background_image'))style="background: url({{ asset(config('admin.login_background_image')) }}) no-repeat;background-size: cover;"
+    @if(config('admin.login_background_image'))style="background: url({{ asset(config('admin.forgot_password_background_image')) }}) no-repeat;background-size: cover;"
     @endif>
     <div class="login-box">
         <div class="login-logo">
@@ -40,28 +40,9 @@
         </div>
         <!-- /.login-logo -->
         <div class="login-box-body">
-            <p class="login-box-msg">{{ trans('admin.login') }}</p>
+            <p class="login-box-msg">Xác nhận đổi mật khẩu</p>
 
-            @if (session()->has('verify-forgot-password'))
-            <div class="panel panel-success">
-                <div class="panel-heading">{{ session()->get('verify-forgot-password') }}</div>
-            </div>
-            @endif
-
-            <form action="{{ admin_url('auth/login') }}" method="post">
-                <div class="form-group has-feedback {!! !$errors->has('username') ?: 'has-error' !!}">
-
-                    @if($errors->has('username'))
-                        @foreach($errors->get('username') as $message)
-                            <label class="control-label" for="inputError"><i
-                                class="fa fa-times-circle-o"></i> {{$message}}</label><br>
-                        @endforeach
-                    @endif
-
-                    <input type="text" class="form-control" placeholder="{{ trans('admin.username') }}" name="username"
-                        value="{{ old('username') }}">
-                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-                </div>
+            <form action="{{ route('admin.auth.users.postVerifyForgotPassword') }}" method="post">
                 <div class="form-group has-feedback {!! !$errors->has('password') ?: 'has-error' !!}">
 
                     @if($errors->has('password'))
@@ -75,22 +56,35 @@
                         name="password">
                     <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                 </div>
+                <div class="form-group has-feedback {!! !$errors->has('password_confirm') ?: 'has-error' !!}">
+
+                    @if($errors->has('password_confirm'))
+                        @foreach($errors->get('password_confirm') as $message)
+                            <label class="control-label" for="inputError"><i
+                                class="fa fa-times-circle-o"></i> {{$message}}</label><br>
+                        @endforeach
+                    @endif
+
+                    <input type="password" class="form-control" placeholder="Mật khẩu xác nhận"
+                        name="password_confirmation">
+                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                </div>
                 <div class="row">
                     <div class="col-xs-12">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <input type="hidden" name="_token" value="{{ $token }}">
+                        <input type="hidden" name="email" value="{{ $email }}">
                         <button type="submit"
-                            class="btn btn-danger btn-block btn-flat">{{ trans('admin.login') }}</button>
+                            class="btn btn-success btn-block btn-flat">Đổi mật khẩu</button>
                     </div>
                     <!-- /.col -->
                 </div>
                 <div class="row">
                     <hr>
                     <div class="col-xs-6">
-                        <a href="{{ route('admin.auth.users.getForgotPassword') }}">{{ trans('admin.forgot-password') }}</a>
                     </div>
 
                     <div class="col-xs-6">
-                        <a href="{{ route('admin.auth.users.register') }}" style="float: right">{{ trans('admin.register') }}</a>
+                        <a href="{{ route('admin.login') }}" style="float: right">{{ trans('admin.login') }}</a>
                     </div>
                 </div>
             </form>

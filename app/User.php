@@ -21,6 +21,10 @@ class User extends Model implements AuthenticatableContract
 
     const ADMIN = 0;
     const CUSTOMER = 1;
+    const ACTIVE = 1;
+    const DEACTIVE = 0;
+
+    const STAFF_SALE_ROLE_ID = 3;
 
     /**
      * Table name
@@ -53,7 +57,8 @@ class User extends Model implements AuthenticatableContract
         'district',
         'staff_sale_id',
         'customer_percent_service',
-        'type_customer'
+        'type_customer',
+        'is_updated_profile'
     ];
 
     /**

@@ -277,7 +277,7 @@ return [
     |    "skin-red", "skin-red-light", "skin-black", "skin-black-light".
     |
     */
-    'skin' => 'skin-red-light',
+    'skin' => 'skin-red',
 
     /*
     |--------------------------------------------------------------------------
@@ -304,6 +304,8 @@ return [
     'login_background_image' => "assets/img/login_bg.jpg",
 
     'register_background_image' => "assets/img/register_bg.jfif",
+
+    'forgot_password_background_image' => "assets/img/forgot_password_bg.jfif",
 
     /*
     |--------------------------------------------------------------------------

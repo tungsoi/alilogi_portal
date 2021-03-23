@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\Storage;
 use Encore\Admin\Auth\Database\HasPermissions;
+use App\Models\System\Province;
 
 class User extends Model implements AuthenticatableContract
 {
@@ -134,7 +135,7 @@ class User extends Model implements AuthenticatableContract
     }
 
     public function warehouse() {
-        return $this->hasOne('App\Models\Alilogi\Warehouse', 'id', 'ware_house_id');
+        return $this->hasOne('App\Models\System\Warehouse', 'id', 'ware_house_id');
     }
 
     public static function customers() {

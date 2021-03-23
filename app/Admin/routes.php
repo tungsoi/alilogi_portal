@@ -5,8 +5,8 @@ use Illuminate\Routing\Router;
 Admin::routes();
 
 Route::group([
-    'prefix'        => config('admin.route.prefix'),
-    'namespace'     => config('admin.route.namespace'),
+    'prefix'        => "admin",
+    'namespace'     => "App\\Admin\\Controllers\\System",
     'middleware'    => config('admin.route.middleware'),
     'as'            => config('admin.route.prefix') . '.',
 ], function (Router $router) {
@@ -15,7 +15,11 @@ Route::group([
 
     $router->resources([
         'auth/users'    =>  'UserController',
-        'customers'     =>  'CustomerController'
+        'customers'     =>  'CustomerController',
+        'warehouses'    =>  'WarehouseController',
+        'messages'      =>  'MessageController',
+        'transport_routes'  =>  'TransportRouteController',
+        'exchange_rates'    =>  'ExchangeRateController'
     ]);
 });
 

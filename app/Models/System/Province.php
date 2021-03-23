@@ -1,24 +1,22 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\System;
 
 use Illuminate\Database\Eloquent\Model;
 
-class District extends Model
+class Province extends Model
 {
     /**
      * Table name
      */
-    protected $table = 'districts';
+    protected $table = 'provinces';
 
     /**
      * Fields
      */
     protected $fillable = [
-        'district_id',
+        'province_id',
         'name',
-        'type',
-        'location',
-        'province_id'
+        'type'
     ];
 }

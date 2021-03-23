@@ -20,4 +20,3 @@
 
 Encore\Admin\Form::forget(['map', 'editor']);
 app('view')->prependNamespace('admin', resource_path('views/admin'));
-Admin::favicon(config('admin.favicon'));

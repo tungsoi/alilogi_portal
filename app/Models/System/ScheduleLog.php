@@ -1,22 +1,22 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\System;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Warehouse extends Model
+class ScheduleLog extends Model
 {
     /**
      * Table name
      *
      * @var string
      */
-    protected $table = "ware_houses";
+    protected $table = "schedule_logs";
 
     /**
      * Fields
      *
      * @var array
      */
-    protected $fillable = ['name', 'address', 'is_active'];
+    protected $fillable = ['code'];
 }

@@ -8,7 +8,7 @@ use App\User;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Form;
-use App\Models\Warehouse;
+use App\Models\System\Warehouse;
 use App\Models\Province;
 use App\Models\District;
 use Illuminate\Support\Facades\DB;
